@@ -5,18 +5,11 @@ services:
     build: .
     command: ./nothing.sh
     scaling:
-      min: 3
-      max: 10
+      min: 1
+      max: 12
       on_alert:
-        alert1: +2
-        alert2: -2
-  test2:
-    build: .
-    command: ./nothing.sh
-    scaling:
-      min: 3
-      max: 10
-      initial: 5
+        alert5: "+2"
+        alert6: "/2"
   inserter:
     build: .
     command: ./writer.sh
@@ -26,9 +19,9 @@ services:
 metrics:
   - metric2
 alerts:
-  alert1:
+  alert5:
     metric2: ">=70"
-  alert2:
+  alert6:
     metric2: "<=30"
 networks:
   fodocker:
