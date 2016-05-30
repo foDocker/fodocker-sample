@@ -1,18 +1,11 @@
 #!/bin/bash
 sleep 10
 time=2
-while :
+i=0
+while sleep $time
 do
-	for value in $(seq 0 1 100)
-	do
-		sleep $time
-		echo "VALUE: $value"
-		curl -i -XPOST "http://influxdb:8086/write?db=fodocker" --data-binary "metric2,bla=ble value=$value"
-	done
-	for value in $(seq 100 -1 0)
-	do
-		sleep $time
-		echo "VALUE: $value"
-		curl -i -XPOST "http://influxdb:8086/write?db=fodocker" --data-binary "metric2,bla=ble value=$value"
-	done
+	value=$(perl -le "print (((sin($i/100) + 1) / 2) * 100)")
+	echo "VALUE: $value"
+	curl -i -XPOST "http://influxdb:8086/write?db=fodocker" --data-binary "metric2,bla=ble value=$value"
+	i=$(expr $i + 1)
 done
