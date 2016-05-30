@@ -1,0 +1,36 @@
+stack_name: git_sample
+version: '2'
+services:
+  test1:
+    build: .
+    command: ./nothing.sh
+    scaling:
+      min: 3
+      max: 10
+      on_alert:
+        alert1: +2
+        alert2: -2
+  test2:
+    build: .
+    command: ./nothing.sh
+    scaling:
+      min: 3
+      max: 10
+      initial: 5
+  inserter:
+    build: .
+    command: ./writer.sh
+    networks:
+      - default
+      - fodocker
+metrics:
+  - metric2
+alerts:
+  alert1:
+    metric2: ">=70"
+  alert2:
+    metric2: "<=30"
+networks:
+  fodocker:
+    external:
+      name: test_default
